@@ -26,11 +26,15 @@ void setup() {
 
 void loop() {
 
+  // ----------- Start the clap listening ---------------
+
   micVal = digitalRead(Mic_Pin);
   
   if (micVal == HIGH) {
 
     double startTime = millis();
+
+    // ------ Start the 3 second clap recording timmer --
 
     while( millis() - startTime <= 3000) {
         micVal = digitalRead(Mic_Pin);
@@ -40,12 +44,15 @@ void loop() {
           clapCounter++;
           delay(100);
         }
-
-        
     }
+
+    // ----------- End timmer of claps -----------------
+    
     digitalWrite(Green_Led, LOW);
 
     int clapSQR = clapCounter * clapCounter;
+
+    // --------- Output values to serial ----------------
 
     Serial.print("The number of claps^2: ");
     Serial.println(clapSQR );
@@ -55,7 +62,11 @@ void loop() {
     Serial.println(clapSQR, HEX);
     Serial.print("In OCT: ");
     Serial.println(clapSQR, OCT);
-    
+
+    // ---------- End serial output ---------------------
+
+
+    // ---------- Start blinking ------------------------
 
     for ( int init = 0; init <= clapSQR; init++) {
       digitalWrite(Green_Led, HIGH);
@@ -64,9 +75,6 @@ void loop() {
       delay(100); 
       
     }
-
-    
-
   }
 
 }
